@@ -9,7 +9,9 @@ from ..utils import translate
 from ..utils.fast_download import upload_file
 
 
-@bot.on(NewMessage(pattern=r"https?://(?:www\.)?deezer\.com/(?:\w+/)?track/(\d+)"))
+@bot.on(
+    NewMessage(pattern=r"https?://(?:www\.)?deezer\.com/(?:\w+/)?track/(\d+)")
+)
 async def track_link(event: NewMessage.Event):
     try:
         track = deethon.Track(event.pattern_match.group(1))
@@ -18,26 +20,26 @@ async def track_link(event: NewMessage.Event):
         raise StopPropagation
     await event.respond(
         translate.TRACK_MSG.format(
-            track.title,
-            track.artist,
-            track.album.title,
-            track.release_date
+            track.title, track.artist, track.album.title, track.release_date
         ),
-        file=track.album.cover_xl)
+        file=track.album.cover_xl,
+    )
     quality = users[event.chat_id]["quality"]
     download_status = DownloadStatus(event)
     await download_status.start()
-    file = await bot.loop.run_in_executor(None, deezer.download_track, track, quality, download_status.progress)
+    file = await bot.loop.run_in_executor(
+        None, deezer.download_track, track, quality, download_status.progress
+    )
     download_status.finished()
     file_ext = ".mp3" if quality.startswith("MP3") else ".flac"
     file_name = track.artist + " - " + track.title + file_ext
     upload_status = UploadStatus(event)
     await upload_status.start()
-    async with bot.action(event.input_chat, 'audio'):
+    async with bot.action(event.input_chat, "audio"):
         uploaded_file = await upload_file(
             file_name=file_name,
             client=bot,
-            file=open(file, 'rb'),
+            file=open(file, "rb"),
             progress_callback=upload_status.progress,
         )
         upload_status.finished()
@@ -57,7 +59,9 @@ async def track_link(event: NewMessage.Event):
     raise StopPropagation
 
 
-@bot.on(NewMessage(pattern=r"https?://(?:www\.)?deezer\.com/(?:\w+/)?album/(\d+)"))
+@bot.on(
+    NewMessage(pattern=r"https?://(?:www\.)?deezer\.com/(?:\w+/)?album/(\d+)")
+)
 async def album_link(event: NewMessage.Event):
     try:
         album = deethon.Album(event.pattern_match.group(1))
@@ -88,8 +92,8 @@ async def album_link(event: NewMessage.Event):
             r = await upload_file(
                 file_name=file_name,
                 client=bot,
-                file=open(track, 'rb'),
-                progress_callback=upload_status.progress
+                file=open(track, "rb"),
+                progress_callback=upload_status.progress,
             )
             upload_status.finished()
             await bot.send_file(

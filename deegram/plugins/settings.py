@@ -50,8 +50,10 @@ async def settings_quality(event: CallbackQuery.Event):
         "Select song quality: ",
         buttons=[
             [Button.inline(a, data="FLAC"), Button.inline(b, data="MP3_320")],
-            [Button.inline(c, data="MP3_256"),
-             Button.inline(d, data="MP3_128")],
+            [
+                Button.inline(c, data="MP3_256"),
+                Button.inline(d, data="MP3_128"),
+            ],
             [Button.inline("◀️"), Button.inline("❌")],
         ],
     )

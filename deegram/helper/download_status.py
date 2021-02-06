@@ -33,7 +33,8 @@ class DownloadStatus:
                     try:
                         await self._message.edit(
                             f"🔽 Downloading... {(self._current / self._total):.1%}\n"
-                            f"⚡ Speed: {get_readable_file_size(self.speed())}/s")
+                            f"⚡ Speed: {get_readable_file_size(self.speed())}/s"
+                        )
                     except MessageNotModifiedError:
                         logger.debug("Message not modified")
                     except ZeroDivisionError:

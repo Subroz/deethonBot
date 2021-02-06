@@ -14,7 +14,9 @@ logger = logging.getLogger(__name__)
 
 
 class UploadStatus:
-    def __init__(self, event, track_count: int = None, total_tracks: int = None):
+    def __init__(
+        self, event, track_count: int = None, total_tracks: int = None
+    ):
         self._current = 0
         self._total = 0
         self._event = event
