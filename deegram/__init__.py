@@ -4,13 +4,16 @@ import sys
 import time
 
 import deethon
-#import uvloop
+
+# import uvloop
 from dotenv import load_dotenv
 from telethon import TelegramClient, functions, types
 from telethon.events import NewMessage
 
 formatter = logging.Formatter(
-    "%(levelname)s %(asctime)s - %(name)s - %(message)s"
+    """
+    [%(asctime)s.%(msecs)03d] %(filename)s:%(lineno)s
+    %(levelname)s: %(message)s"""
 )
 
 fh = logging.FileHandler(f"{__name__}.log", "w")
@@ -56,7 +59,7 @@ logger.info("Bot started")
 # Saving user preferences locally
 users = {}
 
-#uvloop.install()
+# uvloop.install()
 bot.loop.run_until_complete(
     bot(
         functions.bots.SetBotCommandsRequest(
