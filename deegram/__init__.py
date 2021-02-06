@@ -4,6 +4,7 @@ import sys
 import time
 
 import deethon
+import uvloop
 from dotenv import load_dotenv
 from telethon import TelegramClient, functions, types
 from telethon.events import NewMessage
@@ -55,6 +56,7 @@ logger.info("Bot started")
 # Saving user preferences locally
 users = {}
 
+uvloop.install()
 bot.loop.run_until_complete(
     bot(
         functions.bots.SetBotCommandsRequest(
